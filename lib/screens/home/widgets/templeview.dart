@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:templeticketsystem/base/res/media.dart';
 import 'package:templeticketsystem/base/res/styles/app_styles.dart';
 
-class Hotel extends StatelessWidget {
+class TempleView extends StatelessWidget {
   final Map<String,dynamic> hotel;
-  const Hotel({super.key, required this.hotel});
+  const TempleView({super.key, required this.hotel});
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.all(8.0),
-      width: size.width*0.6,
+      width: size.width*0.8,
       height: 350,
       margin: EdgeInsets.only(right: 16),
       decoration: BoxDecoration(
-        color: AppStyles.primaryColor,
-        borderRadius: BorderRadius.circular(18)
+          color: AppStyles.ticketBlue,
+          borderRadius: BorderRadius.circular(18)
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,10 +28,10 @@ class Hotel extends StatelessWidget {
                 color: AppStyles.primaryColor,
                 borderRadius: BorderRadius.circular(12),
                 image: DecorationImage(
-                  fit:BoxFit.cover,
-                  image: AssetImage(
-                    "assets/images/${hotel['image']}"
-                  )
+                    fit:BoxFit.cover,
+                    image: AssetImage(
+                        "assets/images/${hotel['image']}"
+                    )
                 )
             ),
           ),
@@ -51,7 +51,6 @@ class Hotel extends StatelessWidget {
               style: AppStyles.headLineStyle3.copyWith(color:Colors.white),
             ),
           ),
-          SizedBox(height: 5,),
         ],
       ),
     );

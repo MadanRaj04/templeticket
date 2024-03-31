@@ -15,7 +15,7 @@ class FindTickets extends StatelessWidget {
           color: AppStyles.findTicketColor),
       child: Center(
         child: Text(
-          "find tickets",
+          "Search",
           style: AppStyles.textStyle.copyWith(color: Colors.white),
         ),
       ),

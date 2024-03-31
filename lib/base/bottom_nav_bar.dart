@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:templeticketsystem/screens/home/home_screen.dart';
 import 'package:templeticketsystem/screens/search/search_screen.dart';
-import 'package:templeticketsystem/screens/ticket/ticket_screen.dart';
+import 'package:templeticketsystem/screens/ticket/ticket_screennew.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);

@@ -44,7 +44,7 @@ class TicketPromotion extends StatelessWidget {
                 ),
                 const SizedBox(height: 12,),
                 Text(
-                  "20% discount on the early booking of this flight. Don't miss",
+                  "20% discount on the early booking. Don't miss out.",
                   style: AppStyles.headLineStyle2,
                 )
               ],
@@ -112,27 +112,20 @@ class TicketPromotion extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Take Love",
+                    "10% off",
                     style: AppStyles.headLineStyle2.copyWith(
                       color: Colors.white,
                     ),
                   ),
-                  RichText(
-                    text: const TextSpan(
-                        children: [
-                          TextSpan(
-                              text:'😍', style: TextStyle(fontSize: 38)
-                          ),
-                          TextSpan(
-                              text:'🥰', style: TextStyle(fontSize: 50)
-                          ),
-                          TextSpan(
-                              text:'😘', style: TextStyle(fontSize: 38)
-                          ),
-                        ]
+                  SizedBox(height: 20,),
+                  Text(
+                    "Click Here to know more",
+                    style: AppStyles.headLineStyle2.copyWith(
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                        fontSize: 18
                     ),
-                  )
-                ],
+                  ),                ],
               ),
             )
           ],
