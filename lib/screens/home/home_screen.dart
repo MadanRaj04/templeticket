@@ -9,6 +9,7 @@ import 'package:templeticketsystem/base/widgets/ticket_view.dart';
 import 'package:templeticketsystem/screens/home/widgets/hotel.dart';
 import 'package:templeticketsystem/screens/GenAI/GenerativeAI.dart';
 import 'package:templeticketsystem/screens/Crypto.dart';
+import 'package:templeticketsystem/screens/CryptoWallet/genwallet.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -122,7 +123,7 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => EncryptionPage()),
+                MaterialPageRoute(builder: (context) => WalletApp()),
               );
             },
             child: Icon(Icons.lock),

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:templeticketsystem/screens/ticket/qr_viewer.dart';
 import 'package:templeticketsystem/screens/home/home_screen.dart';
+import 'package:templeticketsystem/screens/ApiStore.dart';
 class TicketBooking extends StatefulWidget {
   final String? eventName;
   final int? PriceA;
@@ -47,40 +48,7 @@ class _TicketBookingState extends State<TicketBooking> {
       };
 
       // Check if the document exists
-      db.collection("Payments").doc(widget.eventName).get().then((doc) {
-        if (doc.exists) {
-          // Document exists, update the data
-          db.collection("Payments").doc(widget.eventName).update({
-            _NameController.text: paymentData
-          }).then((_) {
-            print("Document updated successfully!");
-            // Redirect to HomeScreen
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-                  (route) => false,
-            );
-          }).catchError((error) {
-            print("Error updating document: $error");
-          });
-        } else {
-          // Document doesn't exist, create a new document
-          db.collection("Payments").doc(widget.eventName).set({
-            _NameController.text: paymentData
-          }, SetOptions(merge: true)).then((_) {
-            print("Document created successfully!");
-            // Redirect to HomeScreen
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-                  (route) => false,
-            );
-          }).catchError((error) {
-            print("Error creating document: $error");
-          });
-        }
-      }).catchError((error) {
-        print("Error getting document: $error");
-      });
-
+      firestorestorage(widget.eventName.toString(),_NameController.text,_EmailController.text,response.signature.toString());
       showDialog(
         context: context,
         builder: (BuildContext context) {

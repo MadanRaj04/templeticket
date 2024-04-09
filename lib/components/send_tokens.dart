@@ -60,7 +60,7 @@ class SendTokensPage extends StatelessWidget {
   }
 
   void sendTransaction(String receiver, EtherAmount txValue) async {
-    var apiUrl = "Your RPC Url"; // Replace with your API
+    var apiUrl = "https://arb-mainnet.g.alchemy.com/v2/e8J_KfHjh6P2DHm-v0IdfolJur6uLEvs"; // Replace with your API
     // Replace with your API
     var httpClient = http.Client();
     var ethClient = Web3Client(apiUrl, httpClient);
