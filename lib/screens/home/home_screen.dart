@@ -8,7 +8,7 @@ import 'package:templeticketsystem/base/widgets/app_double_text.dart';
 import 'package:templeticketsystem/base/widgets/ticket_view.dart';
 import 'package:templeticketsystem/screens/home/widgets/hotel.dart';
 import 'package:templeticketsystem/screens/GenAI/GenerativeAI.dart';
-
+import 'package:templeticketsystem/screens/Crypto.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -104,16 +104,33 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => GenAi()),
-          );
-        },
-        child: Icon(Icons.chat),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => GenAi()),
+              );
+            },
+            child: Icon(Icons.chat),
+          ),
+          SizedBox(height: 16), // Adjust the spacing as needed
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EncryptionPage()),
+              );
+            },
+            child: Icon(Icons.lock),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
     );
   }
 }

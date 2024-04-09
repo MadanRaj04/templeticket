@@ -45,6 +45,15 @@ dependencies:
   cloud_firestore: ^4.15.8
   qr_flutter: ^4.1.0
   google_generative_ai: ^0.2.2
+  firebase_storage: ^11.6.9
+  web3dart: ^2.7.3
+  bip39: ^1.0.6
+  ed25519_hd_key: ^2.2.1
+  hex: ^0.2.0
+  encrypt: ^5.0.3
+  provider: ^6.1.2
+  shared_preferences: ^2.2.2
+  path_provider: ^2.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
