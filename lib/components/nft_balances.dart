@@ -28,7 +28,7 @@ class _NFTListPageState extends State<NFTListPage> {
   Future<void> _loadNFTList() async {
     final response = await http.get(
         Uri.parse(
-            'http://34.207.141.126:80/get_user_nfts?address=${widget.address}&chain=${widget.chain}'),
+            'http://34.224.106.165:80/get_user_nfts?address=${widget.address}&chain=${widget.chain}'),
         headers: {'Content-Type': 'application/json'});
 
     if (response.statusCode == 200) {

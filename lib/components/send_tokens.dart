@@ -23,26 +23,31 @@ class SendTokensPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(
-              controller: recipientController,
-              decoration: const InputDecoration(
-                labelText: 'Recipient Address',
-              ),
+            Text(
+              'Recipient Address:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '0xac8be70072e9b3948c9007024e530c12da2b103b',
+              style: TextStyle(fontStyle: FontStyle.italic),
             ),
             const SizedBox(height: 16.0),
-            TextField(
-              controller: amountController,
-              decoration: const InputDecoration(
-                labelText: 'Amount',
-              ),
-              keyboardType:
-              const TextInputType.numberWithOptions(decimal: true),
+            Text(
+              'Amount:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text(
+              '0.0005',
+              style: TextStyle(fontStyle: FontStyle.italic),
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                String recipient = recipientController.text;
-                double amount = double.parse(amountController.text);
+                String recipient =
+                    '0xac8be70072e9b3948c9007024e530c12da2b103b';
+                double amount = 0.0005;
                 BigInt bigIntValue = BigInt.from(amount * pow(10, 18));
                 print(bigIntValue);
                 EtherAmount ethAmount =
@@ -60,7 +65,8 @@ class SendTokensPage extends StatelessWidget {
   }
 
   void sendTransaction(String receiver, EtherAmount txValue) async {
-    var apiUrl = "https://arb-mainnet.g.alchemy.com/v2/e8J_KfHjh6P2DHm-v0IdfolJur6uLEvs"; // Replace with your API
+    var apiUrl =
+        "https://eth-sepolia.g.alchemy.com/v2/r7WNKg9L2sXc9GOhk4LCHJy4ZxcrQU4C"; // Replace with your API
     // Replace with your API
     var httpClient = http.Client();
     var ethClient = Web3Client(apiUrl, httpClient);

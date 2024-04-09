@@ -8,7 +8,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:templeticketsystem/screens/ticket/qr_viewer.dart';
 import 'package:templeticketsystem/screens/home/home_screen.dart';
 import 'package:templeticketsystem/screens/ApiStore.dart';
+import 'package:templeticketsystem/screens/ticket/choosepaymentmethod.dart';
+import 'package:templeticketsystem/screens/CryptoWallet/genwallet.dart';
 class TicketBooking extends StatefulWidget {
+
   final String? eventName;
   final int? PriceA;
   final int? PriceC;
@@ -25,13 +28,13 @@ class _TicketBookingState extends State<TicketBooking> {
   int childrenCount = 0;
   Razorpay? _razorpay;
   FirebaseFirestore db = FirebaseFirestore.instance;
+  String emailenc=''; // Declare emailenc here
 
   TextEditingController _NameController = TextEditingController();
   TextEditingController _EmailController = TextEditingController();
   TextEditingController _Phonecontroller = TextEditingController();
 
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     final key = utf8.encode('uSAjM8QzucBgRmaDIMD48V9R');
     final bytes = utf8.encode('${response.orderId}|${response.paymentId}');
     final hmacSha256 = Hmac(sha256, key);
@@ -48,7 +51,9 @@ class _TicketBookingState extends State<TicketBooking> {
       };
 
       // Check if the document exists
-      firestorestorage(widget.eventName.toString(),_NameController.text,_EmailController.text,response.signature.toString());
+      print("calling firebasestorage");
+
+      await firestorestorage(widget.eventName.toString(),_NameController.text,emailenc,response.signature.toString());
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -68,11 +73,14 @@ class _TicketBookingState extends State<TicketBooking> {
     } else {
       debugPrint("The payment was unauthentic!");
     }
-  }  void _handlePaymentError(PaymentFailureResponse response) {
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
     Fluttertoast.showToast(
         msg: "ERROR HERE: ${response.code} - ${response.message}",
         timeInSecForIosWeb: 4);
   }
+
   void _handleExternalWallet(ExternalWalletResponse response) {
     Fluttertoast.showToast(
         msg: "EXTERNAL_WALLET IS : ${response.walletName}",
@@ -97,7 +105,7 @@ class _TicketBookingState extends State<TicketBooking> {
   }
 
   //* create order##############################################################
-  void createOrder(int amt) async {
+  void createOrder(int amt, String emailenc) async {
     String username = 'rzp_test_WP5dpf7LDm87Tn'; // Razorpay pay key
     String password = "uSAjM8QzucBgRmaDIMD48V9R"; // Razorpay secret key
     String basicAuth = 'Basic ${base64Encode(utf8.encode('$username:$password'))}';
@@ -154,7 +162,7 @@ class _TicketBookingState extends State<TicketBooking> {
 
         }
 
-        }
+      }
       else{
         print("entering else");
         try {
@@ -185,19 +193,14 @@ class _TicketBookingState extends State<TicketBooking> {
       print("try entered");
 
     }
-     catch (e) {
+    catch (e) {
 
       print("Error checking username: $e");
       // Handle error
     }
 
-
-
-
-
-
-
   }
+
   void openCheckout(String orderId,int amt) async {
     print("entered successfully");
     var options = {
@@ -216,8 +219,55 @@ class _TicketBookingState extends State<TicketBooking> {
     }
   }
 
+  Future<String> encryption(String data) async {
+    final encdata = await Encryptdata(data);
+    setState(() {
+      emailenc = encdata; // Assign encdata to emailenc
+    });
+    return encdata;
+  }
 
 
+  void _showPaymentMethodDialog(int totalAmount) async {
+    String emailenc = await encryption(_EmailController.text);
+    print(emailenc);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select Payment Method'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: Text('Credit/Debit/Netbanking'),
+                onTap: () {
+
+                  createOrder(((adultsCount * (widget.PriceA ?? 0)) + (childrenCount * (widget.PriceC ?? 0))),emailenc);
+                },
+              ),
+              ListTile(
+                title: Text('Cryptocurrencies'),
+                onTap: () {
+                  Navigator.pop(context); // Close the dialog
+                  _handleCryptocurrencies(totalAmount);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
+  void _handleCryptocurrencies(int totalAmount) {
+
+    Navigator.push(
+       context,
+       MaterialPageRoute(builder: (context) => WalletApp()),
+     );
+  }
 
   @override
   void initState(){
@@ -226,9 +276,9 @@ class _TicketBookingState extends State<TicketBooking> {
     _razorpay?.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay?.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay?.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-
-
   }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -260,7 +310,6 @@ class _TicketBookingState extends State<TicketBooking> {
             SizedBox(height: 10),
             TextField(
               controller: _EmailController,
-
               decoration: InputDecoration(labelText: 'Email'),
             ),
             SizedBox(height: 10),
@@ -318,14 +367,15 @@ class _TicketBookingState extends State<TicketBooking> {
                       timeInSecForIosWeb: 4,
                     );
                   } else {
-                    // Proceed with creating the order if the phone number is valid
-                    createOrder(((adultsCount * (widget.PriceA ?? 0)) + (childrenCount * (widget.PriceC ?? 0))));
+                    // Show the payment method dialog if the phone number is valid
+                    _showPaymentMethodDialog(
+                        ((adultsCount * (widget.PriceA ?? 0)) +
+                            (childrenCount * (widget.PriceC ?? 0))));
                   }
                 },
                 child: Text('Book Now'),
               ),
             ),
-
           ],
         ),
       ),
