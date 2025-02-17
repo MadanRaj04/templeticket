@@ -32,6 +32,7 @@ The architecture of the **Temple Ticketing System** consists of several intercon
 
 ### Workflow
 
+![FlowChart](image.png)
 The system is made up of the following components:
 
 #### Frontend Application (Flutter)
